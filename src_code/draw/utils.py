@@ -3,7 +3,7 @@ import chess.svg
 import cairosvg
 import io
 import tkinter as tk
-from PIL import ImageTk, Image
+from PIL import Image, ImageTk
 
 
 def draw_board(board, display=False):
@@ -12,13 +12,15 @@ def draw_board(board, display=False):
     board_png = cairosvg.svg2png(bytestring=board_svg)
     if display == False:
         with open('board.png', 'wb') as f:
-            f.write(board_png)  # save board as png file
+            f.write(board_png)
     else:
         root = tk.Tk()
-        img = ImageTk.PhotoImage(Image.open(io.BytesIO(board_png)).resize((800, 800)))
-        panel = tk.Label(root, image=img)
-        panel.pack()
-
-        # Start the Tkinter event loop
+        root.title('Chess Board')
+        root.geometry('800x800')
+        root.resizable(0, 0)
+        board_image = ImageTk.PhotoImage(Image.open(io.BytesIO(board_png)))
+        board_label = tk.Label(root, image=board_image)
+        board_label.pack()
         root.mainloop()
+
     return
